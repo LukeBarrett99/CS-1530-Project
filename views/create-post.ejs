@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Create a Post</title>
+  </head>
+  <body>
+    <h2>Create a post</h2>
+    <form method="POST" action="/create-post">
+      <input type="file" value="" accept="image/*" id="imgInput"><br>
+      <img src="" alt="" id="imgPreview"><br>
+      <p>Name of clothing item:</p>
+      <input type="text" name="itemName"><br>
+      <p>Clothing type:</p>
+      <input type="text" name="type"><br><br>
+      <input type="submit" value="Submit" id="submitButton">
+    </form>
+
+    <script type="text/javascript">
+      const imgInput = document.getElementById("imgInput");
+      const imgPreview = document.getElementById("imgPreview");
+
+      imgInput.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", function() {
+            imgPreview.setAttribute("src", this.result);
+          });
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+    </script>
+  </body>
+</html>
