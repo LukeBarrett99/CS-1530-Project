@@ -1,10 +1,52 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'password',
+  database : 'db'
+});
+
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Connection to post database successful');
+});
 
 const app = express();
+
+//create post database
+app.get('/createdb', (req, res) => {
+  let sql = 'CREATE DATABASE db';
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+    res.send('database created');
+  })
+})
+
+//create post table
+app.get('/createpoststable', (req, res) => {
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user id, image VARCHAR(255), PRIMARY KEY(id))';
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+    res.send('post table created');
+  });
+});
+
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('stuff'));
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Server started, access at http://localhost:3000/");
+});
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(urlencodedParser);
@@ -26,6 +68,27 @@ app.get('/create-post', (req, res) => {
 });
 
 app.post('/create-post', urlencodedParser, function (req, res) {
-  console.log(req.body);
-  res.render('post-created-successfully', {data: req.body});
-})
+  let post = {title: req.body.itemName, user:0, image:"test.png"};
+  let sql = 'INSERT INTO posts SET ?';
+  let query = db.query(sql, post, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log('post added');
+    post.id = result.insertId;
+    res.render('view-post', {data: post});
+  });
+});
+
+app.get('/view-post/:id', (req, res) => {
+  let id = req.params.id;
+  let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
+  let  query = db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']};
+    console.log('post fetched');
+    res.render('view-post', {data: data});
+  });
+});
