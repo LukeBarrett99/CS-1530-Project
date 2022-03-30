@@ -32,7 +32,7 @@ app.get('/createdb', (req, res) => {
 
 //create post table
 app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user id, image VARCHAR(255), PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user int, image VARCHAR(255), PRIMARY KEY(id))';  
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
@@ -42,6 +42,17 @@ app.get('/createpoststable', (req, res) => {
   });
 });
 
+//create account-information table
+app.get('/createusertable', (req, res) => {
+  let sql = 'CREATE TABLE accountInformation(Username VARCHAR(255), Password VARCHAR(255))';  
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+    res.send('Account information table created.');
+  });
+});
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('stuff'));
 app.listen(3000, () => {
@@ -61,6 +72,31 @@ app.get('/login', (req, res) => {
 
 app.get('/create-account', (req, res) => {
   res.render('create-account');
+});
+
+app.get('/create-account-failed', (req, res) => {
+  res.render('create-account-failed');
+})
+
+app.post('/create-account-failed', (req, res) => {
+  res.redirect('create-account');
+})
+
+app.post('/create-account', (req, res) => {
+  console.log(req.body);
+  let username = req.body.username;
+  let pass1 = req.body.Password1;
+  let pass2 = req.body.Password2;
+  console.log(pass1);
+  console.log(pass2);
+
+  if(pass1 === pass2){
+    // SQL account stuff goes here
+    return res.redirect('login');
+  }
+  else{
+    return res.redirect('create-account-failed');
+  }
 });
 
 app.get('/create-post', (req, res) => {
@@ -92,3 +128,4 @@ app.get('/view-post/:id', (req, res) => {
     res.render('view-post', {data: data});
   });
 });
+
