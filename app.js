@@ -70,6 +70,24 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.post('/login', (req, res) => {
+  let username = req.body.Username;
+  let inputPass = req.body.Password;
+  let sql = 'SELECT * FROM accountInformation WHERE Username = "' + username + '"';
+  console.log(sql);
+  let query = db.query(sql, (err, result) => {
+    let realPass = result[0]["Password"];
+    console.log(realPass); 
+    if(inputPass === realPass){
+      // placeholder for right now
+      res.render('index');
+    }
+    else{
+      res.render('create-account');
+    }
+  })
+})
+
 app.get('/create-account', (req, res) => {
   res.render('create-account');
 });
@@ -83,15 +101,19 @@ app.post('/create-account-failed', (req, res) => {
 })
 
 app.post('/create-account', (req, res) => {
-  console.log(req.body);
-  let username = req.body.username;
+  let username = req.body.Username;
   let pass1 = req.body.Password1;
   let pass2 = req.body.Password2;
-  console.log(pass1);
-  console.log(pass2);
 
   if(pass1 === pass2){
     // SQL account stuff goes here
+    let sql = 'INSERT INTO accountInformation (Username, Password) VALUES ("'
+      + username + '", "' + pass1 + '")';
+    let query = db.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      }
+    })
     return res.redirect('login');
   }
   else{
