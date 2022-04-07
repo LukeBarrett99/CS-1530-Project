@@ -32,7 +32,7 @@ app.get('/createdb', (req, res) => {
 
 //create post table
 app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user id, image VARCHAR(255), PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user int, image VARCHAR(255), PRIMARY KEY(id))';
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
