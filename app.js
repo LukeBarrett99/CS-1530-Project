@@ -42,6 +42,17 @@ app.get('/createpoststable', (req, res) => {
   });
 });
 
+//create account-information table
+app.get('/createusertable', (req, res) => {
+  let sql = 'CREATE TABLE accountInformation(Username VARCHAR(255), Password VARCHAR(255))';
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+    res.send('Account information table created.');
+  });
+});
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('stuff'));
 app.listen(3000, () => {
@@ -59,8 +70,55 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.post('/login', (req, res) => {
+  let username = req.body.Username;
+  let inputPass = req.body.Password;
+  let sql = 'SELECT * FROM accountInformation WHERE Username = "' + username + '"';
+  console.log(sql);
+  let query = db.query(sql, (err, result) => {
+    let realPass = result[0]["Password"];
+    console.log(realPass);
+    if(inputPass === realPass){
+      // placeholder for right now
+      res.render('index');
+    }
+    else{
+      res.render('create-account');
+    }
+  })
+})
+
 app.get('/create-account', (req, res) => {
   res.render('create-account');
+});
+
+app.get('/create-account-failed', (req, res) => {
+  res.render('create-account-failed');
+})
+
+app.post('/create-account-failed', (req, res) => {
+  res.redirect('create-account');
+})
+
+app.post('/create-account', (req, res) => {
+  let username = req.body.Username;
+  let pass1 = req.body.Password1;
+  let pass2 = req.body.Password2;
+
+  if(pass1 === pass2){
+    // SQL account stuff goes here
+    let sql = 'INSERT INTO accountInformation (Username, Password) VALUES ("'
+      + username + '", "' + pass1 + '")';
+    let query = db.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      }
+    })
+    return res.redirect('login');
+  }
+  else{
+    return res.redirect('create-account-failed');
+  }
 });
 
 app.get('/create-post', (req, res) => {
