@@ -32,7 +32,7 @@ app.get('/createdb', (req, res) => {
 
 //create post table
 app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user int, image VARCHAR(255), PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user int, image MEDIUMTEXT, PRIMARY KEY(id))';
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
@@ -53,13 +53,14 @@ app.get('/createusertable', (req, res) => {
     res.send('Account information table created.');
   });
 });
+
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('stuff'));
 app.listen(3000, () => {
   console.log("Server started, access at http://localhost:3000/");
 });
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000});
 app.use(urlencodedParser);
 
 app.get('/', (req, res) => {
@@ -126,7 +127,7 @@ app.get('/create-post', (req, res) => {
 });
 
 app.post('/create-post', urlencodedParser, function (req, res) {
-  let post = {title: req.body.itemName, user:0, image:"test.png"};
+  let post = {title: req.body.itemName, user:0, image: req.body.imageData};
   let sql = 'INSERT INTO posts SET ?';
   let query = db.query(sql, post, (err, result) => {
     if (err) {

@@ -7,7 +7,8 @@
   <body>
     <h2>Create a post</h2>
     <form method="POST" action="/create-post">
-      <input type="file" value="" accept="image/*" id="imgInput"><br>
+      <input type="file" value="" accept="image/*" id="imgInput" name="itemImage"><br>
+      <input type="hidden" name="imageData" value="" id="imgData">
       <img src="" alt="" id="imgPreview"><br>
       <p>Name of clothing item:</p>
       <input type="text" name="itemName"><br>
@@ -27,6 +28,7 @@
 
           reader.addEventListener("load", function() {
             imgPreview.setAttribute("src", this.result);
+            document.getElementById("imgData").value = reader.result;
           });
 
           reader.readAsDataURL(file);
