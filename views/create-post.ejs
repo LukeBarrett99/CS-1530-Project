@@ -3,19 +3,42 @@
   <head>
     <meta charset="utf-8">
     <title>Create a Post</title>
+    <link rel="stylesheet" type="text/css" href="/css"/>
   </head>
   <body>
-    <h2>Create a post</h2>
-    <form method="POST" action="/create-post">
-      <input type="file" value="" accept="image/*" id="imgInput" name="itemImage"><br>
-      <input type="hidden" name="imageData" value="" id="imgData">
-      <img src="" alt="" id="imgPreview"><br>
-      <p>Name of clothing item:</p>
-      <input type="text" name="itemName"><br>
-      <p>Clothing type:</p>
-      <input type="text" name="type"><br><br>
-      <input type="submit" value="Submit" id="submitButton">
-    </form>
+    <div class="create-post">
+      <form method="POST" action="/create-post">
+        <h2>Create a post</h2>
+        <input type="file" value="" accept="image/*" id="imgInput" name="itemImage"><br>
+        <input type="hidden" name="imageData" value="" id="imgData">
+        <div class="image-container">
+          <img src="" alt="" id="imgPreview"><br>
+        </div>
+
+        <p>Name or short description of clothing item:</p>
+        <input type="text" name="itemName"><br>
+
+        <p>Brand:</p>
+        <input type="text" name="brand"><br>
+
+        <p>Type:</p>
+        <select name="itemType">
+          <option value="Tops">Top</option>
+          <option value="Bottoms">Bottom</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+
+        <p>Gender:</p>
+        <select name="gender">
+          <option value="Mens">Mens</option>
+          <option value="Womens">Womens</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+
+        <input type="submit" value="Submit" id="submitButton">
+      </form>
+    </div>
 
     <script type="text/javascript">
       const imgInput = document.getElementById("imgInput");

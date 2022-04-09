@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const path = require('path');
 
 const db = mysql.createConnection({
   host : 'localhost',
@@ -32,7 +33,7 @@ app.get('/createdb', (req, res) => {
 
 //create post table
 app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), user int, image MEDIUMTEXT, PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, user int, title VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), type VARCHAR(255), image MEDIUMTEXT, PRIMARY KEY(id))';
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
@@ -62,6 +63,7 @@ app.listen(3000, () => {
 
 var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000});
 app.use(urlencodedParser);
+app.use(express.static("public"));
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -88,6 +90,10 @@ app.post('/login', (req, res) => {
     }
   })
 })
+
+app.get('/css', (req, res) => {
+  res.sendFile(path.join(__dirname, "public/style.css"));
+});
 
 app.get('/create-account', (req, res) => {
   res.render('create-account');
@@ -127,7 +133,7 @@ app.get('/create-post', (req, res) => {
 });
 
 app.post('/create-post', urlencodedParser, function (req, res) {
-  let post = {title: req.body.itemName, user:0, image: req.body.imageData};
+  let post = {user:0, title: req.body.itemName, brand: req.body.brand, gender: req.body.gender, type: req.body.itemType, image: req.body.imageData};
   let sql = 'INSERT INTO posts SET ?';
   let query = db.query(sql, post, (err, result) => {
     if (err) {
@@ -146,7 +152,7 @@ app.get('/view-post/:id', (req, res) => {
     if (err) {
       throw err;
     }
-    let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']};
+    let data = {id: result['0']['id'], user: result['0']['user'], title: result['0']['title'], brand: result['0']['brand'], gender: result['0']['gender'],  type: result['0']['type'], image: result['0']['image']};
     console.log('post fetched');
     res.render('view-post', {data: data});
   });

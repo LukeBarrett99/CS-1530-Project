@@ -3,12 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>View Post</title>
+    <link rel="stylesheet" type="text/css" href="/css"/>
   </head>
   <body>
-    <p>Viewing Post</p>
-    <p>Id: <%= data.id %></p>
-    <p>Title: <%= data.title %></p>
-    <p>User: <%= data.user %></p>
-    <img src='<%= data.image %>' alt="" id="imgPreview"><br>
+    <div class="content">
+      <div class="post-info">
+        <div class="info-text">
+          <p><%= data.title %></p>
+          <p>Brand: <%= data.brand %></p>
+          <p>Category: <%= data.type %></p>
+          <p><%= data.gender %></p>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src='<%= data.image %>' alt="" id="imgPreview"><br>
+      </div>
+    </div>
   </body>
 </html>
