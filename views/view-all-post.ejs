@@ -15,11 +15,11 @@
                 <p>Brand: <%= data.brand %></p>
                 <p>Category: <%= data.type %></p>
                 <p><%= data.gender %></p>
+                <div class="image-container">
+                    <img src='<%= data.image %>' alt="" id="imgPreview"><br>
+                </div>
             <% } %> 
         </div>
-      </div>
-      <div class="image-container">
-        <img src='<%= data.image %>' alt="" id="imgPreview"><br>
       </div>
     </div>
   </body>
