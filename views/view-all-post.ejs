@@ -10,11 +10,11 @@
       <div class="post-info">
         <div class="info-text">
             <% for(var i = 0; i < result.length; i++) { %> 
-                <% data = {id: result[i]['id'], title: result[i]['title'], user: result[i]['user'], image: result[i]['image']}; %> 
-                <p>Id: <%= data.id %></p> 
-                <p>Title: <%= data.title %></p> 
-                <p>User: <%= data.user %></p> 
-                <p>Image: <%= data.image %></p> 
+                <% data = {id: result[i]['id'], user: result[i]['user'], title: result[i]['title'], brand: result[i]['brand'], gender: result[i]['gender'],  type: result[i]['type'], image: result[i]['image']}; %> 
+                <p><%= data.title %></p>
+                <p>Brand: <%= data.brand %></p>
+                <p>Category: <%= data.type %></p>
+                <p><%= data.gender %></p>
             <% } %> 
         </div>
       </div>
