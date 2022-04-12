@@ -157,3 +157,15 @@ app.get('/view-post/:id', (req, res) => {
     res.render('view-post', {data: data});
   });
 });
+
+app.get('/view-all-post', (req, res) => { 
+  let sql = "SELECT * FROM posts;"; 
+  let query = db.query(sql, (err, result) => { 
+    if(err) { 
+      throw err; 
+    } 
+    //let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']}; 
+    console.log(result); 
+      res.render('view-all-post', { result, result }); 
+  }); 
+});
