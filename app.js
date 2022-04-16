@@ -45,7 +45,7 @@ app.get('/createpoststable', (req, res) => {
 
 //create account-information table
 app.get('/createusertable', (req, res) => {
-  let sql = 'CREATE TABLE accountInformation(Username VARCHAR(255), Password VARCHAR(255))';
+  let sql = 'CREATE TABLE accountInformation(userid int AUTO_INCREMENT PRIMARY KEY, Username VARCHAR(255), Password VARCHAR(255))';
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
@@ -76,17 +76,17 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   let username = req.body.Username;
   let inputPass = req.body.Password;
-  let sql = 'SELECT * FROM accountInformation WHERE Username = "' + username + '"';
+  let sql = 'SELECT Password FROM accountInformation WHERE Username = "' + username + '"';
   console.log(sql);
   let query = db.query(sql, (err, result) => {
     let realPass = result[0]["Password"];
     console.log(realPass);
     if(inputPass === realPass){
-      // placeholder for right now
-      res.render('index');
+      // this is where you redirect to the user page
+      res.redirect('index');
     }
     else{
-      res.render('create-account');
+      res.redirect('create-account');
     }
   })
 })
@@ -165,7 +165,7 @@ app.get('/view-all-post', (req, res) => {
       throw err; 
     } 
     //let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']}; 
-    console.log(result); 
+    // console.log(result); 
       res.render('view-all-post', { result, result }); 
   }); 
 });

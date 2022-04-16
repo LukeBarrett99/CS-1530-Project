@@ -6,21 +6,27 @@
     <link rel="stylesheet" type="text/css" href="/css"/>
   </head>
   <body>
-    <div class="content">
-      <div class="post-info">
-        <div class="info-text">
-            <% for(var i = 0; i < result.length; i++) { %> 
-                <% data = {id: result[i]['id'], user: result[i]['user'], title: result[i]['title'], brand: result[i]['brand'], gender: result[i]['gender'],  type: result[i]['type'], image: result[i]['image']}; %> 
-                <p><%= data.title %></p>
-                <p>Brand: <%= data.brand %></p>
-                <p>Category: <%= data.type %></p>
-                <p><%= data.gender %></p>
-                <div class="image-container">
-                    <img src='<%= data.image %>' alt="" id="imgPreview"><br>
-                </div>
-            <% } %> 
+    <% for(var i = 0; i < result.length; i++) { %> 
+      <% data = {id: result[i]['id'], user: result[i]['user'], title: result[i]['title'], brand: result[i]['brand'], gender: result[i]['gender'],  type: result[i]['type'], image: result[i]['image']}; %> 
+      <div class = "post">
+        <div class = "user">
+          <p><%= data.user %></p>
+        </div>
+        <hr>
+        <div class="image-container">
+          <img src='<%= data.image %>' alt="" id="imgPreview"><br>
+        </div>
+        <div class="content">
+          <div class="post-info">
+            <div class="info-text">
+              <p><%= data.title %></p>
+              <p>Brand: <%= data.brand %></p>
+              <p>Category: <%= data.type %></p>
+              <p><%= data.gender %></p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    <% } %> 
   </body>
 </html>
