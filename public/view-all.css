@@ -217,7 +217,7 @@ img {
 .content-container {
   width: 100%;
   max-width: 935px;
-
+  background: #6abadeba;
   padding: 0 0 8px;
 
   margin: 0 auto;
@@ -270,6 +270,10 @@ img {
   flex-direction: column;
   flex: 1;
   gap: 8px;
+}
+
+.post-info {
+    background: white;
 }
 
 .stories__left-button,
@@ -418,6 +422,10 @@ img {
   color: var(--text-dark);
   text-decoration: none;
   text-transform: lowercase;
+}
+
+.user {
+    background: white;
 }
 .post__user:hover {
   text-decoration: underline;
