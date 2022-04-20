@@ -83,7 +83,7 @@ app.post('/login', (req, res) => {
     console.log(realPass);
     if(inputPass === realPass){
       // this is where you redirect to the user page
-      res.redirect('index');
+      res.redirect('/user/' + username);
     }
     else{
       res.redirect('create-account');
@@ -158,14 +158,27 @@ app.get('/view-post/:id', (req, res) => {
   });
 });
 
-app.get('/view-all-post', (req, res) => { 
-  let sql = "SELECT * FROM posts;"; 
-  let query = db.query(sql, (err, result) => { 
-    if(err) { 
-      throw err; 
-    } 
-    //let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']}; 
-    // console.log(result); 
-      res.render('view-all-post', { result, result }); 
-  }); 
+app.get('/view-all-post', (req, res) => {
+  let sql = "SELECT * FROM posts;";
+  let query = db.query(sql, (err, result) => {
+    if(err) {
+      throw err;
+    }
+    //let data = {id: result['0']['id'], title: result['0']['title'], user: result['0']['user'], image: result['0']['image']};
+    // console.log(result);
+      res.render('view-all-post', { result, result });
+  });
+});
+
+
+app.get('/user/:user', (req, res) => {
+  let user = req.params.user;
+  let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
+  let  query = db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    let data = {user: result['0']['Username']};
+    res.render('user-landing', {data: data});
+  });
 });

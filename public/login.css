@@ -1,59 +1,74 @@
-body  
-{  
-    margin: 0;  
-    padding: 0;  
-    background-color:#6abadeba;  
-    font-family: 'Arial';  
-}  
-.bod{  
-    width: 382px;  
-    overflow: hidden;  
-    margin: auto;  
-    margin: 20 0 0 450px;  
-    padding: 80px;  
-    background: #10c7f0;  
-    border-radius: 15px ;  
-          
-}  
-h2{  
-    text-align: center;  
-    color: #081012;  
-    padding: 20px;  
-}  
-.para{  
-    color: #08ffd1;  
-    font-size: 17px;  
-}  
-#Uname{  
-    width: 300px;  
-    height: 30px;  
-    border: none;  
-    border-radius: 3px;  
-    padding-left: 8px;  
-}  
-#Pass{  
-    width: 300px;  
-    height: 30px;  
-    border: none;  
-    border-radius: 3px;  
-    padding-left: 8px;  
-      
-}  
-#log{  
-    width: 300px;  
-    height: 30px;  
-    border: none;  
-    border-radius: 17px;  
-    padding-left: 7px;  
-    color: blue;  
-  
-  
-}  
-span{  
-    color: white;  
-    font-size: 17px;  
-}  
-a{  
-    float: right;  
-    background-color: grey;  
-}  
+body
+{
+    margin: 0;
+    padding: 0;
+    background-color:#6abadeba;
+    font-family: 'Arial';
+}
+.bod{
+    width: 382px;
+    overflow: hidden;
+    margin: auto;
+    margin: 20 0 0 450px;
+    padding: 80px;
+    background: #10c7f0;
+    border-radius: 15px ;
+
+}
+h2{
+    text-align: center;
+    color: #081012;
+    padding: 20px;
+}
+.para{
+    color: #08ffd1;
+    font-size: 17px;
+}
+#Uname{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#Pass{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+
+}
+#log{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: blue;
+
+
+}
+span{
+    color: white;
+    font-size: 17px;
+}
+
+.image-container {
+  width: 80%;
+  max-height: 600px;
+  box-sizing: border-box;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.image-container img {
+  max-height: 100%;
+  max-width: 100%;
+  border: 2px solid #b1adad;
+  border-radius: 10px;
+}
+
+.center {
+  text-align: center;
+}

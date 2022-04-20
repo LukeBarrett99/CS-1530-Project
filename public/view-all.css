@@ -879,7 +879,7 @@ img {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 10024px) {
   .main-container {
     background-color: var(--secondary);
   }

@@ -3,12 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Create a Post</title>
-    <link rel="stylesheet" type="text/css" href="/css"/>
+    <link rel = "stylesheet" type="text/css" href="login.css">
   </head>
   <body>
-    <div class="create-post">
+    <h2>Create a post</h2>
+    <br>
+    <div class="bod">
       <form method="POST" action="/create-post">
-        <h2>Create a post</h2>
         <input type="file" value="" accept="image/*" id="imgInput" name="itemImage"><br>
         <input type="hidden" name="imageData" value="" id="imgData">
         <div class="image-container">
@@ -35,7 +36,7 @@
           <option value="Womens">Womens</option>
           <option value="Unisex">Unisex</option>
         </select>
-
+        <br><br>
         <input type="submit" value="Submit" id="submitButton">
       </form>
     </div>

@@ -3,14 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>View Post</title>
-    <link rel="stylesheet" type="text/css" href="/css"/>
+    <link rel = "stylesheet" type="text/css" href="login.css">
   </head>
   <body>
-    <div class = "post">
-      <div class = "user">
+    <div class="bod">
+      <!--<div>
         <p><%= data.user %></p>
-      </div>
-      <hr>
+      </div>-->
       <div class="image-container">
         <img src='<%= data.image %>' alt="" id="imgPreview"><br>
       </div>
@@ -24,6 +23,9 @@
           </div>
         </div>
       </div>
+      <a href="/view-all-post">Your Feed</a>
+      <a href="/create-post">Create Another</a>
     </div>
+
   </body>
 </html>
