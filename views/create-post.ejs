@@ -9,7 +9,7 @@
     <h2>Create a post</h2>
     <br>
     <div class="bod">
-      <form method="POST" action="/create-post">
+      <form method="POST" action="/<%= data.user %>/create-post">
         <input type="file" value="" accept="image/*" id="imgInput" name="itemImage"><br>
         <input type="hidden" name="imageData" value="" id="imgData">
         <div class="image-container">

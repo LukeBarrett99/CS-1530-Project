@@ -33,7 +33,7 @@ app.get('/createdb', (req, res) => {
 
 //create post table
 app.get('/createpoststable', (req, res) => {
-  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, user int, title VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), type VARCHAR(255), image MEDIUMTEXT, PRIMARY KEY(id))';
+  let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, user VARCHAR(255), title VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), type VARCHAR(255), image MEDIUMTEXT, PRIMARY KEY(id))';
   db.query(sql, (err, result) => {
     if (err) {
       throw err;
@@ -128,20 +128,37 @@ app.post('/create-account', (req, res) => {
   }
 });
 
-app.get('/create-post', (req, res) => {
-  res.render('create-post');
-});
-
-app.post('/create-post', urlencodedParser, function (req, res) {
-  let post = {user:0, title: req.body.itemName, brand: req.body.brand, gender: req.body.gender, type: req.body.itemType, image: req.body.imageData};
-  let sql = 'INSERT INTO posts SET ?';
-  let query = db.query(sql, post, (err, result) => {
+app.get('/:user/create-post', (req, res) => {
+  let user = req.params.user;
+  let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
+  let  query = db.query(sql, (err, result) => {
     if (err) {
       throw err;
     }
-    console.log('post added');
-    post.id = result.insertId;
-    res.render('view-post', {data: post});
+    let data = {user: result['0']['Username']};
+    console.log(data);
+    res.render('create-post', {data});
+  });
+});
+
+app.post('/:user/create-post', urlencodedParser, function (req, res) {
+  let user = req.params.user;
+  let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
+  let  query = db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    let id = result['0']['Username'];
+    let post = {user: id, title: req.body.itemName, brand: req.body.brand, gender: req.body.gender, type: req.body.itemType, image: req.body.imageData};
+    let sql = 'INSERT INTO posts SET ?';
+    let query = db.query(sql, post, (err, result) => {
+      if (err) {
+        throw err;
+      }
+      console.log('post added');
+      post.id = result.insertId;
+      res.render('view-post', {data: post});
+    });
   });
 });
 
