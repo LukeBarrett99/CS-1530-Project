@@ -10,6 +10,7 @@ const db = mysql.createConnection({
   database : 'db'
 });
 
+//establish db connection
 db.connect((err) => {
   if (err) {
     throw err;
@@ -19,7 +20,7 @@ db.connect((err) => {
 
 const app = express();
 
-//create post database
+//create post database. ONLY RUN THIS ONCE (must remove line 10, run this, and re-add 10)
 app.get('/createdb', (req, res) => {
   let sql = 'CREATE DATABASE db';
   db.query(sql, (err, result) => {
@@ -31,7 +32,7 @@ app.get('/createdb', (req, res) => {
   })
 })
 
-//create post table
+//create post table. ONLY RUN THIS ONCE
 app.get('/createpoststable', (req, res) => {
   let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, user VARCHAR(255), title VARCHAR(255), brand VARCHAR(255), gender VARCHAR(255), type VARCHAR(255), image MEDIUMTEXT, PRIMARY KEY(id))';
   db.query(sql, (err, result) => {
@@ -43,7 +44,7 @@ app.get('/createpoststable', (req, res) => {
   });
 });
 
-//create account-information table
+//create account-information table. ONLY RUN THIS ONCE
 app.get('/createusertable', (req, res) => {
   let sql = 'CREATE TABLE accountInformation(userid int AUTO_INCREMENT PRIMARY KEY, Username VARCHAR(255), Password VARCHAR(255))';
   db.query(sql, (err, result) => {
@@ -55,6 +56,7 @@ app.get('/createusertable', (req, res) => {
   });
 });
 
+//setup Node environment
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('stuff'));
 app.listen(3000, () => {
@@ -65,14 +67,9 @@ var urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true, par
 app.use(urlencodedParser);
 app.use(express.static("public"));
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+//POST REQUESTS
 
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
+//user login
 app.post('/login', (req, res) => {
   let username = req.body.Username;
   let inputPass = req.body.Password;
@@ -89,24 +86,9 @@ app.post('/login', (req, res) => {
       res.redirect('create-account');
     }
   })
-})
-
-app.get('/css', (req, res) => {
-  res.sendFile(path.join(__dirname, "public/style.css"));
 });
 
-app.get('/create-account', (req, res) => {
-  res.render('create-account');
-});
-
-app.get('/create-account-failed', (req, res) => {
-  res.render('create-account-failed');
-})
-
-app.post('/create-account-failed', (req, res) => {
-  res.redirect('create-account');
-})
-
+//create an account
 app.post('/create-account', (req, res) => {
   let username = req.body.Username;
   let pass1 = req.body.Password1;
@@ -128,19 +110,7 @@ app.post('/create-account', (req, res) => {
   }
 });
 
-app.get('/:user/create-post', (req, res) => {
-  let user = req.params.user;
-  let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
-  let  query = db.query(sql, (err, result) => {
-    if (err) {
-      throw err;
-    }
-    let data = {user: result['0']['Username']};
-    console.log(data);
-    res.render('create-post', {data});
-  });
-});
-
+//create a post
 app.post('/:user/create-post', urlencodedParser, function (req, res) {
   let user = req.params.user;
   let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
@@ -162,6 +132,53 @@ app.post('/:user/create-post', urlencodedParser, function (req, res) {
   });
 });
 
+//PAGE RENDERING
+
+//render index page
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+//render login page
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+//send CSS file from server
+app.get('/css', (req, res) => {
+  res.sendFile(path.join(__dirname, "public/style.css"));
+});
+
+//render account creation page
+app.get('/create-account', (req, res) => {
+  res.render('create-account');
+});
+
+//render account creation failed
+app.get('/create-account-failed', (req, res) => {
+  res.render('create-account-failed');
+})
+
+//redirect account creation failed
+app.post('/create-account-failed', (req, res) => {
+  res.redirect('create-account');
+})
+
+//render create post
+app.get('/:user/create-post', (req, res) => {
+  let user = req.params.user;
+  let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
+  let  query = db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    let data = {user: result['0']['Username']};
+    console.log(data);
+    res.render('create-post', {data});
+  });
+});
+
+//render view post
 app.get('/view-post/:id', (req, res) => {
   let id = req.params.id;
   let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
@@ -175,6 +192,7 @@ app.get('/view-post/:id', (req, res) => {
   });
 });
 
+//render all posts
 app.get('/view-all-post', (req, res) => {
   let sql = "SELECT * FROM posts;";
   let query = db.query(sql, (err, result) => {
@@ -187,7 +205,7 @@ app.get('/view-all-post', (req, res) => {
   });
 });
 
-
+//render user landing page
 app.get('/user/:user', (req, res) => {
   let user = req.params.user;
   let sql = 'SELECT * FROM accountinformation WHERE Username = "' + user + '"';
